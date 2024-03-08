@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.3">
+  <object class="tk.Toplevel" id="toplevel" named="True">
+    <property name="background">#ffffff</property>
+    <property name="container">false</property>
+    <property name="geometry">352x665</property>
+    <property name="height">200</property>
+    <property name="highlightbackground">#ffffff</property>
+    <property name="highlightcolor">#ffffff</property>
+    <property name="iconphoto">media/image/HappyFace - Logo Icon.png</property>
+    <property name="resizable">none</property>
+    <property name="title" translatable="yes">HappyFace - Desktop</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Label" id="dashboard_heading_label" named="True">
+        <property name="background">#ffffff</property>
+        <property name="font">{Microsoft YaHei} 25 {bold}</property>
+        <property name="foreground">#0000ff</property>
+        <property name="text" translatable="yes">Dashboard</property>
+        <layout manager="pack">
+          <property name="pady">19</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="capture_label" named="True">
+        <property name="background">#ffffff</property>
+        <property name="font">{Microsoft YaHei} 14 {bold}</property>
+        <property name="text" translatable="yes">Capture</property>
+        <layout manager="pack">
+          <property name="pady">5</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="start_btn" named="True">
+        <property name="command" type="command" cbtype="simple">on_start_button_clicked</property>
+        <property name="cursor">hand2</property>
+        <property name="text" translatable="yes">START</property>
+        <layout manager="pack">
+          <property name="pady">10</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="snap_label" named="True">
+        <property name="background">#ffffff</property>
+        <property name="font">{Microsoft YaHei} 14 {bold}</property>
+        <property name="text" translatable="yes">Snaps</property>
+        <layout manager="pack">
+          <property name="pady">10</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="dir_id_label" named="True">
+        <property name="background">#ffffff</property>
+        <property name="font">{Microsoft YaHei} 10 {}</property>
+        <property name="text" translatable="yes">Save Directory ID</property>
+        <layout manager="pack">
+          <property name="anchor">center</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="save_dir_id_entry" named="True">
+        <property name="font">{Microsoft YaHei} 9 {}</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="clear_btn" named="True">
+        <property name="command" type="command" cbtype="simple">on_clear_button_clicked</property>
+        <property name="text" translatable="yes">Clear</property>
+        <property name="width">5</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="collect_btn" named="True">
+        <property name="command" type="command" cbtype="simple">on_collect_button_clicked</property>
+        <property name="cursor">hand2</property>
+        <property name="text" translatable="yes">COLLECT</property>
+        <layout manager="pack">
+          <property name="pady">15</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="statistical_summary_label" named="True">
+        <property name="background">#ffffff</property>
+        <property name="font">{Microsoft YaHei} 14 {bold}</property>
+        <property name="text" translatable="yes">Statistical Summary</property>
+        <layout manager="pack">
+          <property name="pady">10</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="overall_emotion_dist_btn" named="True">
+        <property name="command" type="command" cbtype="simple">on_overall_emotion_dist_button_clicked</property>
+        <property name="cursor">hand2</property>
+        <property name="text" translatable="yes">Emotion Distribution (Overall)</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="positivity_emotion_dist_btn" named="True">
+        <property name="command" type="command" cbtype="simple">on_positivity_emotion_dist_button_clicked</property>
+        <property name="cursor">hand2</property>
+        <property name="text" translatable="yes">Emotion Distribution (Positivity)</property>
+        <layout manager="pack">
+          <property name="pady">10</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="control_label" named="True">
+        <property name="background">#ffffff</property>
+        <property name="font">{Microsoft YaHei} 14 {bold}</property>
+        <property name="text" translatable="yes">Control</property>
+        <layout manager="pack">
+          <property name="pady">10</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="generate_capture_record_btn" named="True">
+        <property name="command" type="command" cbtype="simple">on_generate_capture_record_button_clicked</property>
+        <property name="cursor">hand2</property>
+        <property name="text" translatable="yes">Generate Capture Record</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="setting_btn" named="True">
+        <property name="command" type="command" cbtype="simple">on_settings_button_clicked</property>
+        <property name="cursor">hand2</property>
+        <property name="text" translatable="yes">Settings</property>
+        <layout manager="pack">
+          <property name="pady">10</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="capture_control_info_label" named="True">
+        <property name="background">#ffffff</property>
+        <property name="font">{Microsoft YaHei} 10 {}</property>
+        <property name="foreground">#000000</property>
+        <property name="justify">center</property>
+        <property name="padding">12</property>
+        <property name="text" translatable="yes">Press P and Q letters to Pause and Stop 
+Live Capture Respectively</property>
+        <layout manager="pack">
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>
