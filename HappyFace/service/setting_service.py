@@ -4,7 +4,8 @@ from helper.ui.validation_helper import ValidationHelper
 
 
 class SettingService:
-    def validate_entries(self, **kwargs) -> bool:
+    @staticmethod
+    def validate_entries(**kwargs) -> bool:
         camera_src = kwargs["camera_src"]
         subject_snap_save_dir = kwargs["subject_snap_save_dir"]
         capture_record_save_dir = kwargs["capture_record_save_dir"]
@@ -73,7 +74,8 @@ class SettingService:
             return False
         return True
 
-    def save_settings(self, **kwargs) -> bool:
+    @staticmethod
+    def save_settings(**kwargs) -> bool:
         camera_src = kwargs["camera_src"]
         subject_snap_save_dir = kwargs["subject_snap_save_dir"]
         capture_record_save_dir = kwargs["capture_record_save_dir"]

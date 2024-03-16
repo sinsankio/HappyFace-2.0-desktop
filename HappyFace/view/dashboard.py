@@ -2,6 +2,7 @@ import os
 
 import pygubu
 
+from helper.api_call.api_call_helper import ApiCallHelper
 from helper.capture_record.capture_record_helper import CaptureRecordHelper
 from helper.config.app_config_helper import AppConfigHelper
 from helper.datetime.datetime_helper import DateTimeHelper
@@ -9,7 +10,6 @@ from helper.face_detect.face_detector_helper import FaceDetectorHelper
 from helper.face_emotion.face_emotion_helper import FaceEmotionHelper
 from helper.face_match.face_match_helper import FaceMatchHelper
 from helper.log.default.log_helper import LogHelper
-from helper.api_call.api_call_helper import ApiCallHelper
 from service.dashboard_service import DashboardService
 from service.data_visualize.data_visualize_service import DataVisualizeService
 from service.model.entry_service import EntryService

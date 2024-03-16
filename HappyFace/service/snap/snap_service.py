@@ -96,7 +96,6 @@ class SnapService:
                         if face is not None:
                             iter_snap_collection[i].append(face)
                     else:
-                        snap_collecting = False
                         break
 
                     iteration = cv2.waitKey(1)

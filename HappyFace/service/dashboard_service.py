@@ -22,7 +22,8 @@ from service.snap.snap_service import SnapService
 
 
 class DashboardService:
-    def validate_entries(self, **kwargs) -> bool:
+    @staticmethod
+    def validate_entries(**kwargs) -> bool:
         save_dir_id = kwargs["save_dir_id"]
 
         if ValidationHelper.is_empty(save_dir_id):
@@ -30,40 +31,41 @@ class DashboardService:
             return False
         return True
 
-    def get_snap_dir_path(self, save_dir_id: str) -> str:
+    @staticmethod
+    def get_snap_dir_path(save_dir_id: str) -> str:
         basic_configs = AppConfigHelper.get_basic_app_config()
         subject_snap_save_parent_dir_path = basic_configs["subject_snap_save_dir"]
         path = os.path.join(subject_snap_save_parent_dir_path, save_dir_id)
         return path
 
-    def create_snap_dir(self, path: str) -> None:
+    @staticmethod
+    def create_snap_dir(path: str) -> None:
         with contextlib.suppress(FileExistsError):
             os.mkdir(path)
 
+    @staticmethod
     def collect_and_save_snaps(
-            self,
             camera_id: int | str,
             snap_count_per_iter: int,
             save_dir_id: str
     ) -> None:
-        snap_dir_path = self.get_snap_dir_path(save_dir_id)
+        snap_dir_path = DashboardService.get_snap_dir_path(save_dir_id)
         snap_service = SnapService(camera_id, snap_count_per_iter, snap_dir_path)
         collected_face_files = snap_service.collect()
 
         if MessageBoxHelper.show_ok_cancel_message_box("Snap Save Confirmation",
                                                        "Are you confirming the new snap collection?"):
-            self.create_snap_dir(snap_dir_path)
+            DashboardService.create_snap_dir(snap_dir_path)
             snap_service.save_face_files(collected_face_files)
             MessageBoxHelper.show_info_message_box("Successful Snap Collection", "Snaps collected successfully")
 
-    def create_entry_on_snaps(self, save_dir_id: str, entry_service: EntryService) -> None:
-        entry = Entry()
-
-        entry.repo_id = save_dir_id
+    @staticmethod
+    def create_entry_on_snaps(save_dir_id: str, entry_service: EntryService) -> None:
+        entry = Entry(save_dir_id, None)
         entry_service.insert_entry(entry)
 
+    @staticmethod
     def start_capture_with_record(
-            self,
             camera_id: int | str,
             subject_snap_save_dir: str,
             face_detector_helper: FaceDetectorHelper,
@@ -81,8 +83,8 @@ class DashboardService:
         )
         fd_fm_fer_service.run()
 
+    @staticmethod
     def process_entries_manually(
-            self,
             entry_service: EntryService,
             capture_record_helper: CaptureRecordHelper,
             api_call_helper: ApiCallHelper,
@@ -101,7 +103,8 @@ class DashboardService:
         capture_record_service.waiting_time_secs = waiting_time_secs
         capture_record_service.process_entries_manually()
 
-    def visualize_overall_emotion_distribution_summary(self, data_visualize_service: DataVisualizeService):
+    @staticmethod
+    def visualize_overall_emotion_distribution_summary(data_visualize_service: DataVisualizeService):
         overall_emotion_distribution_summary = data_visualize_service.generate_overall_emotion_distribution_summary()
 
         if overall_emotion_distribution_summary is not None:
@@ -112,8 +115,10 @@ class DashboardService:
                 "No available data to visualize overall emotion distribution statistics"
             )
 
-    def visualize_emotion_distribution_based_on_positivity(self, data_visualize_service: DataVisualizeService):
-        emotion_distribution_based_on_positivity = data_visualize_service.generate_emotion_distribution_summary_based_on_positivity()
+    @staticmethod
+    def visualize_emotion_distribution_based_on_positivity(data_visualize_service: DataVisualizeService):
+        emotion_distribution_based_on_positivity = (data_visualize_service.
+                                                    generate_emotion_distribution_summary_based_on_positivity())
 
         if emotion_distribution_based_on_positivity is not None:
             cv2.imshow(

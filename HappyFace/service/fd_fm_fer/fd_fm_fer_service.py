@@ -8,6 +8,7 @@ from helper.face_emotion.face_emotion_helper import FaceEmotionHelper
 from helper.face_match.face_match_helper import FaceMatchHelper
 from helper.image_processing.image_processing_helper import ImageProcessingHelper
 from model.entry import Entry
+from model.work_emotion import WorkEmotion
 from service.fd_fm_fer.fd_fm_fer_service_config import FdFmFerServiceConfig
 from service.model.entry_service import EntryService
 
@@ -83,14 +84,19 @@ class FdFmFerService:
     def match_face(self, face: np.ndarray) -> dict[str, str | int] | None:
         return self.face_match_helper.match(self.subject_snap_save_dir, face)
 
-    def get_face_emotions(self, face: np.ndarray) -> tuple:
-        emotion_result = self.face_emotion_helper.get_emotions(face)
-        return tuple(
-            sorted(
-                emotion_result,
-                key=lambda x: x["probability"],
-                reverse=True
-            )
+    def get_face_emotions(self, image: np.ndarray, face_bound_rect: dict) -> tuple:
+        emotion_result = self.face_emotion_helper.get_emotions(image, face_bound_rect)
+        emotions = emotion_result["emotions"]
+        aro_val = emotion_result["aro_val"]
+        return dict(
+            emotions=tuple(
+                sorted(
+                    emotions,
+                    key=lambda x: x["probability"],
+                    reverse=True
+                )
+            ),
+            aro_val=aro_val
         )
 
     def run(self):
@@ -111,8 +117,9 @@ class FdFmFerService:
                     for face_record in face_records:
                         face, face_bound_rect = face_record[0], face_record[1]
                         face_match_result = self.match_face(face)
-                        face_emotion_result = self.get_face_emotions(face)
-                        best_face_emotion_record = face_emotion_result[0]
+                        face_emotion_result = self.get_face_emotions(frame, face_bound_rect)
+                        best_face_emotion_record = face_emotion_result["emotions"][0]
+                        best_face_emotion_aro_val = face_emotion_result["aro_val"]
                         face_match_result_dir_id, face_match_result_prob = face_match_result["directory_id"], \
                             face_match_result["probability"]
                         best_face_emotion, best_face_emotion_prob = best_face_emotion_record["emotion"], \
@@ -122,11 +129,13 @@ class FdFmFerService:
                                 (time.time() - last_record_saved_time) >= FdFmFerServiceConfig.MIN_DB_ENTRY_DELAY_SECS:
                             if face_match_result_prob >= FdFmFerServiceConfig.MIN_FACE_MATCH_CONF and \
                                     best_face_emotion_prob >= FdFmFerServiceConfig.MIN_FACE_EMOTION_CONF:
-                                entry = Entry()
-                                entry = entry.generate_entry(face_match_result_dir_id, best_face_emotion_record)
-
-                                self.entry_service.insert_entry_work_emotions(entry)
-
+                                work_emotion = WorkEmotion(
+                                    best_face_emotion,
+                                    best_face_emotion_prob,
+                                    best_face_emotion_aro_val
+                                )
+                                entry = Entry(face_match_result_dir_id, work_emotion)
+                                self.entry_service.insert_entry(entry)
                                 last_record_saved_time = time.time()
 
                         face_x, face_y, face_w, face_h = face_bound_rect['x'], face_bound_rect['y'], \

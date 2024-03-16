@@ -1,24 +1,29 @@
 class WorkEmotion:
-    def __init__(self):
-        self.__emotion = None
-        self.__positivity = None
+    def __init__(self, emotion: str, probability: float, aro_val: tuple) -> None:
+        self.__emotion: str = emotion
+        self.__probability: float = probability
+        self.__aro_val: tuple[float, float] = aro_val
 
     @property
-    def emotion(self):
+    def emotion(self) -> str:
         return self.__emotion
 
     @emotion.setter
-    def emotion(self, emotion: str):
+    def emotion(self, emotion: str) -> None:
         self.__emotion = emotion
 
     @property
-    def positivity(self):
-        return self.__positivity
+    def probability(self) -> float:
+        return self.__probability
 
-    @positivity.setter
-    def positivity(self, positivity: int):
-        self.__positivity = bool(positivity)
+    @probability.setter
+    def probability(self, probability: float) -> None:
+        self.__probability = probability
 
-    def to_work_emotion(self, work_emotion_result: tuple):
-        self.emotion = work_emotion_result[0].decode()
-        self.positivity = work_emotion_result[1]
+    @property
+    def aro_val(self) -> tuple[float, float]:
+        return self.__aro_val
+
+    @aro_val.setter
+    def aro_val(self, aro_val: tuple) -> None:
+        self.__aro_val = aro_val

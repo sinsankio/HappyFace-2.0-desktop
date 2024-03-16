@@ -5,7 +5,7 @@ from helper.api_call.api_call_helper import ApiCallHelper
 from helper.capture_record.capture_record_helper import CaptureRecordHelper
 from helper.config.app_config_helper import AppConfigHelper
 from helper.data_visualize.data_visualize_helper import DataVisualizeHelper
-from helper.database.mysql.db_helper import DbHelper
+from helper.database.mongodb.db_helper import DbHelper
 from helper.face_detect.face_detector_helper import FaceDetectorHelper
 from helper.face_emotion.face_emotion_helper import FaceEmotionHelper
 from helper.face_match.face_match_helper import FaceMatchHelper
@@ -154,8 +154,6 @@ if __name__ == '__main__':
     db_helper = DbHelper(
         db_config["host"],
         int(db_config["port"]),
-        db_config["user"],
-        db_config["password"],
         db_config["database"]
     )
     face_detector_helper = FaceDetectorHelper()

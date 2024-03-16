@@ -11,21 +11,17 @@ class AbstractDbHelper(ABC):
         pass
 
     @abstractmethod
-    def insert(self, query, query_params, logger):
+    def insert(self, entry, logger, collection):
         pass
 
     @abstractmethod
-    def update(self, query, query_params, logger):
+    def update(self, query, values, logger, collection):
         pass
 
     @abstractmethod
-    def read_all(self, query, query_params, logger):
+    def read_all(self, condition, logger, collection):
         pass
 
     @abstractmethod
-    def read_one(self, query, query_params, logger):
-        pass
-
-    @abstractmethod
-    def delete(self, query, query_params, logger):
+    def delete(self, condition, logger, collection):
         pass
