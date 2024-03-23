@@ -8,6 +8,8 @@ class LogHelper(AbstractLoggingHelper):
         logging.basicConfig(
             level=logging.DEBUG,
             format=log_format_template,
+            filename=log_file_name,
+            filemode=log_file_open_mode
         )
 
         self.__logger = logging.getLogger(logger_name)

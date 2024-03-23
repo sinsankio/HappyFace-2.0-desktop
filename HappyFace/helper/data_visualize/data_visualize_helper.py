@@ -30,10 +30,9 @@ class DataVisualizeHelper:
         emotion_distribution_count = {emotion: 0 for emotion in available_emotions}
 
         for entry in entries:
-            work_emotion = entry.work_emotion
-
-            if work_emotion.probability >= FdFmFerServiceConfig.MIN_FACE_EMOTION_CONF:
-                emotion_distribution_count[work_emotion.emotion] += 1
+            for work_emotion in entry.work_emotions:
+                if work_emotion.probability >= FdFmFerServiceConfig.MIN_FACE_EMOTION_CONF:
+                    emotion_distribution_count[work_emotion.emotion] += 1
 
         figure, axis = plt.subplots()
 
@@ -54,13 +53,12 @@ class DataVisualizeHelper:
         pos_neg_emotion_distribution_count = dict(positive=0, negative=0)
 
         for entry in entries:
-            work_emotion = entry.work_emotion
-
-            if work_emotion.probability >= FdFmFerServiceConfig.MIN_FACE_EMOTION_CONF:
-                if work_emotion.emotion in emotions_based_on_positivity["positive"]:
-                    pos_neg_emotion_distribution_count["positive"] += 1
-                else:
-                    pos_neg_emotion_distribution_count["negative"] += 1
+            for work_emotion in entry.work_emotions:
+                if work_emotion.probability >= FdFmFerServiceConfig.MIN_FACE_EMOTION_CONF:
+                    if work_emotion.emotion in emotions_based_on_positivity["positive"]:
+                        pos_neg_emotion_distribution_count["positive"] += 1
+                    else:
+                        pos_neg_emotion_distribution_count["negative"] += 1
 
         values = [pos_neg_emotion_distribution_count["positive"], pos_neg_emotion_distribution_count["negative"]]
 

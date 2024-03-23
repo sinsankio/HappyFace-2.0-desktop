@@ -74,8 +74,7 @@ class SettingService:
             return False
         return True
 
-    @staticmethod
-    def save_settings(**kwargs) -> bool:
+    def save_settings(self, **kwargs) -> bool:
         camera_src = kwargs["camera_src"]
         subject_snap_save_dir = kwargs["subject_snap_save_dir"]
         capture_record_save_dir = kwargs["capture_record_save_dir"]

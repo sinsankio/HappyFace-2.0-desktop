@@ -4,9 +4,9 @@ from model.entry import Entry
 
 
 class EntryService:
-    def __init__(self, db_helper: DbHelper, log_helper: LogHelper):
-        self.__db_helper = db_helper
-        self.__log_helper = log_helper
+    def __init__(self, log_helper: LogHelper):
+        self.__db_helper: DbHelper = None
+        self.__log_helper: LogHelper = log_helper
 
     @property
     def db_helper(self) -> DbHelper:
@@ -24,15 +24,29 @@ class EntryService:
     def log_helper(self, log_helper: LogHelper) -> None:
         self.__log_helper = log_helper
 
-    def insert_entry(self, entry: Entry) -> bool:
-        affected_rows = self.db_helper.insert(entry, self.log_helper)
-        return affected_rows > 0
-
     def read_entries(self) -> tuple[Entry]:
-        return self.db_helper.read_all({}, self.log_helper)
+        if entry_dicts := self.db_helper.read_all({}, {"_id": False}, self.log_helper):
+            entries = []
 
-    def update_entry(self, old_entry: Entry, new_entry: Entry) -> bool:
-        pass
+            for entry_dict in entry_dicts:
+                entry = Entry()
+
+                entry.cast_from_dict(entry_dict)
+                entries.append(entry)
+            return entries
+        return tuple()
+
+    def insert_update_entry(self, entry: Entry) -> bool:
+        if entry_dict := self.db_helper.read_one({"faceSnapDirURI": entry.repo_id}, {"_id": False},
+                                                 self.log_helper):
+            entry.created_on = entry_dict["createdOn"]
+            for work_emotion in entry_dict["workEmotions"]:
+                entry.work_emotions.append(work_emotion)
+            return self.db_helper.update({"faceSnapDirURI": entry.repo_id},
+                                         {"$set": entry.cast_to_dict()}, self.log_helper)
+        result = self.db_helper.insert(entry.cast_to_dict(), self.log_helper)
+        self.add_unique_index_on("faceSnapDirURI")
+        return result
 
     def delete_entry(self, entry: Entry) -> bool:
         pass
@@ -40,3 +54,6 @@ class EntryService:
     def reset_db(self) -> None:
         affected_rows = self.db_helper.delete({}, self.log_helper)
         return affected_rows > 0
+
+    def add_unique_index_on(self, field: str) -> None:
+        self.db_helper.unique(field, self.log_helper)

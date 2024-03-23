@@ -12,7 +12,6 @@ from helper.face_match.face_match_helper import FaceMatchHelper
 from helper.log.default.log_helper import LogHelper
 from helper.ui.message_box_helper import MessageBoxHelper
 from helper.ui.validation_helper import ValidationHelper
-from model.entry import Entry
 from service.capture_record.capture_record_service import CaptureRecordService
 from service.data_visualize.data_visualize_service import DataVisualizeService
 from service.data_visualize.data_visualize_service_config import DataVisualizeServiceConfig
@@ -58,11 +57,6 @@ class DashboardService:
             DashboardService.create_snap_dir(snap_dir_path)
             snap_service.save_face_files(collected_face_files)
             MessageBoxHelper.show_info_message_box("Successful Snap Collection", "Snaps collected successfully")
-
-    @staticmethod
-    def create_entry_on_snaps(save_dir_id: str, entry_service: EntryService) -> None:
-        entry = Entry(save_dir_id, None)
-        entry_service.insert_entry(entry)
 
     @staticmethod
     def start_capture_with_record(

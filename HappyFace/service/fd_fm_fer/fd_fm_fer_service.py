@@ -84,8 +84,8 @@ class FdFmFerService:
     def match_face(self, face: np.ndarray) -> dict[str, str | int] | None:
         return self.face_match_helper.match(self.subject_snap_save_dir, face)
 
-    def get_face_emotions(self, image: np.ndarray, face_bound_rect: dict) -> tuple:
-        emotion_result = self.face_emotion_helper.get_emotions(image, face_bound_rect)
+    def get_face_emotions(self, image: np.ndarray) -> dict:
+        emotion_result = self.face_emotion_helper.get_emotions(image)
         emotions = emotion_result["emotions"]
         aro_val = emotion_result["aro_val"]
         return dict(
@@ -117,7 +117,8 @@ class FdFmFerService:
                     for face_record in face_records:
                         face, face_bound_rect = face_record[0], face_record[1]
                         face_match_result = self.match_face(face)
-                        face_emotion_result = self.get_face_emotions(frame, face_bound_rect)
+                        data = FaceEmotionHelper.preprocess_face(face, face_bound_rect)
+                        face_emotion_result = self.get_face_emotions(data)
                         best_face_emotion_record = face_emotion_result["emotions"][0]
                         best_face_emotion_aro_val = face_emotion_result["aro_val"]
                         face_match_result_dir_id, face_match_result_prob = face_match_result["directory_id"], \
@@ -134,16 +135,30 @@ class FdFmFerService:
                                     best_face_emotion_prob,
                                     best_face_emotion_aro_val
                                 )
-                                entry = Entry(face_match_result_dir_id, work_emotion)
-                                self.entry_service.insert_entry(entry)
+                                entry = Entry(face_match_result_dir_id, [work_emotion])
+                                self.entry_service.insert_update_entry(entry)
                                 last_record_saved_time = time.time()
 
                         face_x, face_y, face_w, face_h = face_bound_rect['x'], face_bound_rect['y'], \
                             face_bound_rect['w'], face_bound_rect['h']
+
+                        bound_rect_color = FdFmFerServiceConfig.POS_EMOTION_BOUND_RECT_COLOR
+
+                        if best_face_emotion_aro_val[1] < 0:
+                            bound_rect_color = FdFmFerServiceConfig.NEG_EMOTION_BOUND_RECT_COLOR
+
+                        cv2.rectangle(
+                            frame,
+                            (face_x, face_y),
+                            (face_x + face_w, face_y + face_h),
+                            bound_rect_color,
+                            2,
+                            2
+                        )
                         cv2.putText(
                             frame,
                             f"{face_match_result_dir_id}: {str(face_match_result_prob)}%",
-                            (face_x, face_y - 30),
+                            (face_x, face_y - 70),
                             FdFmFerServiceConfig.FONT,
                             FdFmFerServiceConfig.FONT_SCALE,
                             (255, 0, 0),
@@ -152,10 +167,28 @@ class FdFmFerService:
                         cv2.putText(
                             frame,
                             f"{best_face_emotion}: {str(best_face_emotion_prob)}%",
-                            (face_x, face_y - 10),
+                            (face_x, face_y - 50),
                             FdFmFerServiceConfig.FONT,
                             FdFmFerServiceConfig.FONT_SCALE,
                             (0, 255, 0),
+                            FdFmFerServiceConfig.LINE_THICKNESS
+                        )
+                        cv2.putText(
+                            frame,
+                            f"Arousal: {str(round(best_face_emotion_aro_val[0], 2))}%",
+                            (face_x, face_y - 30),
+                            FdFmFerServiceConfig.FONT,
+                            FdFmFerServiceConfig.FONT_SCALE,
+                            (0, 0, 255),
+                            FdFmFerServiceConfig.LINE_THICKNESS
+                        )
+                        cv2.putText(
+                            frame,
+                            f"Valence: {str(round(best_face_emotion_aro_val[1], 2))}%",
+                            (face_x, face_y - 10),
+                            FdFmFerServiceConfig.FONT,
+                            FdFmFerServiceConfig.FONT_SCALE,
+                            (0, 0, 255),
                             FdFmFerServiceConfig.LINE_THICKNESS
                         )
                 cv2.putText(

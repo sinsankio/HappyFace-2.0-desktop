@@ -152,9 +152,7 @@ if __name__ == '__main__':
         log_config["LOG_FILE_OPEN_MODE"]
     )
     db_helper = DbHelper(
-        db_config["host"],
-        int(db_config["port"]),
-        db_config["database"]
+        db_config["uri"]
     )
     face_detector_helper = FaceDetectorHelper()
     face_match_helper = FaceMatchHelper()
@@ -165,7 +163,7 @@ if __name__ == '__main__':
 
     dashboard_service = DashboardService()
     setting_service = SettingService()
-    entry_service = EntryService(db_helper, log_helper)
+    entry_service = EntryService(log_helper)
     data_visualize_service = DataVisualizeService(data_visualize_helper, entry_service)
     capture_record_service = CaptureRecordService(
         entry_service,
@@ -186,11 +184,17 @@ if __name__ == '__main__':
         capture_record_helper,
         api_call_helper
     )
+
+    face_emotion_helper.load_lm_predictor()
+    face_emotion_helper.load_fer_model()
+    face_emotion_helper.load_aro_val_model()
+
     capture_record_process_thread = threading.Thread(target=capture_record_service.process_entries_in_background)
     capture_record_process_thread.daemon = True
 
     main.log_helper.log_info_message("[Main] App initialized successfully")
-    db_helper.establish_connection(main.log_helper)
+    db_helper.establish_connection(db_config["name"], main.log_helper)
+    entry_service.db_helper = db_helper
     capture_record_process_thread.start()
     main.run()
     db_helper.close_connection(main.log_helper)

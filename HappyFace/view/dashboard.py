@@ -160,7 +160,6 @@ class DashboardApp:
                 int(basic_config["snap_count_per_iter"]),
                 save_dir_id
             )
-            self.dashboard_service.create_entry_on_snaps(save_dir_id, self.entry_service)
             self.on_clear_button_clicked()
 
     def on_start_button_clicked(self):

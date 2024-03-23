@@ -78,7 +78,7 @@ class CaptureRecordService:
 
                 time.sleep(waiting_time_secs)
 
-                entries = self.entry_service.read_entries()
+                entries_for_upload = [entry.cast_to_dict() for entry in self.entry_service.read_entries()]
                 org_config = AppConfigHelper.get_org_config()
                 org_key = org_config["key"]
                 org_key = HashHelper.hash(org_key)
@@ -86,9 +86,9 @@ class CaptureRecordService:
                 work_emotion_consultancy_setup_endpoint = ApiCallConfigHelper.WORK_EMOTION_CONSULTANCY_SETUP_ENDPOINT \
                                                           % org_key
                 try:
-                    self.capture_record_helper.write_json(entries, self.capture_record_save_dir)
-                    self.api_call_helper.put(work_emotion_entry_upload_endpoint, entries)
-                    self.api_call_helper.post(work_emotion_consultancy_setup_endpoint, entries)
+                    self.capture_record_helper.write_json(entries_for_upload, self.capture_record_save_dir)
+                    self.api_call_helper.put(work_emotion_entry_upload_endpoint, entries_for_upload)
+                    self.api_call_helper.post(work_emotion_consultancy_setup_endpoint, entries_for_upload)
                     self.entry_service.reset_db()
                     self.log_helper.log_info_message(
                         "[CaptureRecordService: Background] Latest capture record entries are processed successfully")
@@ -98,7 +98,7 @@ class CaptureRecordService:
                         "successfully")
 
     def process_entries_manually(self) -> None:
-        entries = self.entry_service.read_entries()
+        entries_for_upload = [entry.cast_to_dict() for entry in self.entry_service.read_entries()]
         org_config = AppConfigHelper.get_org_config()
         org_key = org_config["key"]
         org_key = HashHelper.hash(org_key)
@@ -106,9 +106,9 @@ class CaptureRecordService:
         work_emotion_consultancy_setup_endpoint = ApiCallConfigHelper.WORK_EMOTION_CONSULTANCY_SETUP_ENDPOINT \
                                                   % org_key
         try:
-            self.capture_record_helper.write_json(entries, self.capture_record_save_dir)
-            self.api_call_helper.put(work_emotion_entry_upload_endpoint, entries)
-            self.api_call_helper.post(work_emotion_consultancy_setup_endpoint, entries)
+            self.capture_record_helper.write_json(entries_for_upload, self.capture_record_save_dir)
+            self.api_call_helper.put(work_emotion_entry_upload_endpoint, entries_for_upload)
+            self.api_call_helper.post(work_emotion_consultancy_setup_endpoint, entries_for_upload)
             self.entry_service.reset_db()
             self.log_helper.log_info_message(
                 "[CaptureRecordService: Manual] Latest capture record entries are processed successfully")

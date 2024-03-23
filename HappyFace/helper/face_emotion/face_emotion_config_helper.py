@@ -2,9 +2,9 @@ from helper.face_emotion.face_emotion import FaceEmotion
 
 
 class FaceEmotionConfigHelper:
-    FER_MODEL_FILE_PATH = "../../../../../utility-models/fer"
-    ARO_VAL_MODEL_FILE_PATH = "../../../../../utility-models/aro_val"
-    LM_MODEL_FILE_PATH = "lm-model/shape_predictor_68_face_landmarks.dat"
+    FER_MODEL_FILE_PATH = r"E:\Research\HappyFace\utility-models\fer"
+    ARO_VAL_MODEL_FILE_PATH = r"E:\Research\HappyFace\utility-models\aro_val"
+    LM_MODEL_FILE_PATH = "helper/face_emotion/lm-model/shape_predictor_68_face_landmarks.dat"
     LABEL_CLASSES = {
         0: FaceEmotion.ANGER.value,
         1: FaceEmotion.CONTEMPT.value,

@@ -5,7 +5,7 @@ class DateTimeHelper:
     @staticmethod
     def get_formatted_datetime(
             current_datetime: datetime = datetime.now(),
-            dt_format: str = "%Y-%m-%d %H:%M:%S"
+            dt_format: str = "%Y-%m-%dT%H:%M:%S.%f"
     ) -> str:
         return current_datetime.strftime(dt_format)
 
