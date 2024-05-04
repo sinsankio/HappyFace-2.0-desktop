@@ -63,7 +63,7 @@ class FaceEmotionHelper:
 
         probabilities = FaceEmotionHelper.fer_model.predict(image)
         aro_val = FaceEmotionHelper.aro_val_model.predict(probabilities)[0]
-        aro_val = aro_val * 2 - 1
+        aro_val = (aro_val * 2 - 1) * 100
         emotions = dict(emotions=[])
 
         for index, probability in enumerate(probabilities[0]):

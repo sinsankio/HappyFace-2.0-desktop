@@ -88,7 +88,7 @@ class CaptureRecordService:
                 try:
                     self.capture_record_helper.write_json(entries_for_upload, self.capture_record_save_dir)
                     self.api_call_helper.put(work_emotion_entry_upload_endpoint, entries_for_upload)
-                    self.api_call_helper.post(work_emotion_consultancy_setup_endpoint, entries_for_upload)
+                    self.api_call_helper.post(work_emotion_consultancy_setup_endpoint)
                     self.entry_service.reset_db()
                     self.log_helper.log_info_message(
                         "[CaptureRecordService: Background] Latest capture record entries are processed successfully")
@@ -108,7 +108,7 @@ class CaptureRecordService:
         try:
             self.capture_record_helper.write_json(entries_for_upload, self.capture_record_save_dir)
             self.api_call_helper.put(work_emotion_entry_upload_endpoint, entries_for_upload)
-            self.api_call_helper.post(work_emotion_consultancy_setup_endpoint, entries_for_upload)
+            self.api_call_helper.post(work_emotion_consultancy_setup_endpoint)
             self.entry_service.reset_db()
             self.log_helper.log_info_message(
                 "[CaptureRecordService: Manual] Latest capture record entries are processed successfully")

@@ -2,11 +2,12 @@ from helper.datetime.datetime_helper import DateTimeHelper
 
 
 class WorkEmotion:
-    def __init__(self, emotion: str = None, probability: float = None, aro_val: tuple = ()) -> None:
+    def __init__(self, emotion: str = None, probability: float = None, aro_val: tuple = (),
+                 recorded_on: str = DateTimeHelper.get_formatted_datetime()) -> None:
         self.__emotion: str = emotion
         self.__probability: float = probability
         self.__aro_val: tuple[float, float] = aro_val
-        self.__recorded_on: str = DateTimeHelper.get_formatted_datetime()
+        self.__recorded_on: str = recorded_on
 
     @property
     def emotion(self) -> str:
@@ -54,8 +55,9 @@ class WorkEmotion:
 
     def cast_to_dict(self) -> dict:
         return {
-            "emotion": self.emotion,
-            "probability": self.probability,
-            "aroVal": (float(self.aro_val[0]), float(self.aro_val[1])),
+            "expression": self.emotion,
+            "accuracy": self.probability,
+            "valence": float(self.aro_val[1]),
+            "arousal": float(self.aro_val[0]),
             "recordedOn": self.recorded_on
         }

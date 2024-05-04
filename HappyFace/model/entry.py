@@ -51,8 +51,12 @@ class Entry:
                     if isinstance(we, WorkEmotion):
                         work_emotions.append(we)
                     else:
-                        work_emotion = WorkEmotion()
-                        we["aroVal"] = tuple(we["aroVal"])
+                        work_emotion = WorkEmotion(
+                            emotion=we["expression"],
+                            probability=we["accuracy"],
+                            aro_val=(we["arousal"], we["valence"]),
+                            recorded_on=we["recordedOn"]
+                        )
                         work_emotion.cast_from_dict(we)
                         work_emotions.append(work_emotion)
                 value = work_emotions

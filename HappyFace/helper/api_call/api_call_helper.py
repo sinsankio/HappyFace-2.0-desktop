@@ -10,7 +10,7 @@ class ApiCallHelper:
             return response.json()
 
     @staticmethod
-    def post(url_endpoint: str, data: dict) -> dict:
+    def post(url_endpoint: str, data: dict | None = None) -> dict:
         response = requests.post(url_endpoint, json=data)
 
         if response.status_code == 200:
