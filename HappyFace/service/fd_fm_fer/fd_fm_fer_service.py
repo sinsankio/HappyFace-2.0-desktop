@@ -166,7 +166,7 @@ class FdFmFerService:
                         )
                         cv2.putText(
                             frame,
-                            f"{best_face_emotion}: {str(best_face_emotion_prob)}%",
+                            f"{best_face_emotion.title()}: {str(best_face_emotion_prob)}%",
                             (face_x, face_y - 50),
                             FdFmFerServiceConfig.FONT,
                             FdFmFerServiceConfig.FONT_SCALE,
