@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/config/app_config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config/app_config.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/org.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config/org.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/happy_face_logs.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/happy_face_logs.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/fd_fm_fer/fd_fm_fer_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/fd_fm_fer/fd_fm_fer_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,6 +156,11 @@
       <workItem from="1714794639314" duration="2332000" />
       <workItem from="1714832229187" duration="871000" />
       <workItem from="1714995389230" duration="4750000" />
+      <workItem from="1715598877061" duration="46000" />
+      <workItem from="1715598935521" duration="106000" />
+      <workItem from="1715599077447" duration="6047000" />
+      <workItem from="1715665434122" duration="5396000" />
+      <workItem from="1715692622155" duration="3102000" />
     </task>
     <servers />
   </component>
@@ -167,6 +171,6 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HappyFace$main.coverage" NAME="main Coverage Results" MODIFIED="1715003338931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/HappyFace$main.coverage" NAME="main Coverage Results" MODIFIED="1715696032906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
